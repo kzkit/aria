@@ -5,10 +5,10 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('HomePage'),
+        title: Text('Air Quality & Weather App'),
       ),
       body: Column(
-        children: [Text('You have pushed the button this many times:')],
+        children: [Text('How to make pretty screens?')],
       ),
     );
   }
