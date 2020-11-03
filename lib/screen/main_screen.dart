@@ -18,12 +18,15 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(2.0),
+                padding: const EdgeInsets.all(0.0),
                 child: Text('Light Drizzle'),
               ),
               Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset('assets/sunny.svg')),
+                  padding: const EdgeInsets.all(50.0),
+                  child: Image.asset(
+                    'assets/sunny.png',
+                    scale: 3,
+                  )),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
@@ -41,6 +44,23 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
             ]),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: '',
+          ),
+        ],
+        type: BottomNavigationBarType.shifting,
       ),
     );
   }
