@@ -4,6 +4,16 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Aria'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: null,
+          ),
+        ],
+      ),
       body: Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -44,23 +54,6 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
             ]),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: '',
-          ),
-        ],
-        type: BottomNavigationBarType.shifting,
       ),
     );
   }
