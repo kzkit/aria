@@ -22,13 +22,8 @@ class MainScreen extends StatelessWidget {
                 child: Text('Light Drizzle'),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Cloudy with a chance of meatball',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset('assets/sunny.svg')),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
@@ -40,7 +35,7 @@ class MainScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Air Quality is good.',
+                  'Air Quality is good',
                   style: TextStyle(fontSize: 15),
                   textAlign: TextAlign.center,
                 ),
