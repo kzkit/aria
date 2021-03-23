@@ -1,7 +1,10 @@
 import '../model/weather.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 class WeatherData with ChangeNotifier {
-  List<Weather> weatherList = [];
+  List<Weather> _weatherList = [];
+
+  List<Weather> get getWeatherData {
+    return [..._weatherList];
+  }
 }
