@@ -9,6 +9,7 @@ class CitySelection extends StatefulWidget {
 
 class _CitySelectionState extends State<CitySelection> {
   final TextEditingController _textController = TextEditingController();
+  final FocusNode _cityFocus = FocusNode();
 
   void _getCityData() {
     Provider.of<WeatherData>(context, listen: false)
@@ -30,6 +31,8 @@ class _CitySelectionState extends State<CitySelection> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: TextFormField(
+                  focusNode: _cityFocus,
+                  textInputAction: TextInputAction.done,
                   controller: _textController,
                   decoration: InputDecoration(
                     isDense: true,
@@ -41,6 +44,10 @@ class _CitySelectionState extends State<CitySelection> {
                     errorBorder: InputBorder.none,
                     disabledBorder: InputBorder.none,
                   ),
+                  onFieldSubmitted: (value) {
+                    _cityFocus.unfocus();
+                    _getCityData();
+                  },
                 ),
               ),
             ),
