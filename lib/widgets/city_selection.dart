@@ -11,7 +11,7 @@ class _CitySelectionState extends State<CitySelection> {
   final TextEditingController _textController = TextEditingController();
   final FocusNode _cityFocus = FocusNode();
 
-  void _getCityData() {
+  void _getCityData() async {
     Provider.of<WeatherData>(context, listen: false)
         .getCityData(_textController.text);
     _textController.clear();
