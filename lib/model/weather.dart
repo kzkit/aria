@@ -1,15 +1,17 @@
-import 'package:flutter/material.dart';
-
 class Weather {
-  final String id;
   final String city;
-  final String airQuality;
+  final String date;
+  final double lat;
+  final double long;
+  final int aqi;
   final String weather;
 
   Weather({
-    @required this.id,
-    @required this.city,
-    @required this.airQuality,
-    @required this.weather,
+    this.city,
+    this.date,
+    this.lat,
+    this.long,
+    this.aqi,
+    this.weather,
   });
 }
