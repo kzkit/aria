@@ -22,7 +22,8 @@ class _CitySelectionState extends State<CitySelection> {
     return Form(
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 35, vertical: 15),
-        elevation: 5,
+        elevation: 8,
+        shadowColor: Color.fromRGBO(196, 203, 254, 0.8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         child: Row(
           children: [
