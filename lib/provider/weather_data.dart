@@ -7,26 +7,37 @@ import 'package:http/http.dart' as http;
 
 class WeatherData with ChangeNotifier {
   List<Weather> _weatherList = [];
-  var _airToken = 'X';
-  var _weatherToken = 'X';
 
   List<Weather> get getWeatherData {
     return [..._weatherList];
   }
 
-  void getCityData(cityName) async {
-    var airUri =
-        Uri.parse('https://api.waqi.info/feed/$cityName/?token=$_airToken');
-    var airResponse = await http.get(airUri);
+  void getCityData(String cityName) async {
+    var _airToken = 'X';
+    var _weatherToken = 'X';
+    _weatherList = [];
     //TODO: extract air quality data
-    print(json.decode(airResponse.body));
-
-    //TODO: JUST USE LAT LON FROM THE API RESPONSE FROM AIRURI... only use this method if user pulldown to refresh
-    Position position = await _determinePosition();
-    var weatherUri = Uri.parse(
-        'https://api.openweathermap.org/data/2.5/onecall?lat=${position.latitude}&lon=${position.longitude}&exclude=hourly&appid=$_weatherToken');
-    var weatherResponse = await http.get(weatherUri);
-    print(json.decode(weatherResponse.body));
+    if (cityName.length > 0) {
+      var airData = await _getAQI(cityName, _airToken);
+      if (airData['status'] == 'ok') {
+        print(airData);
+        _weatherList.add(
+          Weather(
+            aqi: airData['data']['aqi'],
+            lat: airData['data']['city']['geo'][0],
+            long: airData['data']['city']['geo'][1],
+            date: airData['data']['time']['iso'],
+            city: airData['data']['city']['name'],
+          ),
+        );
+        print(_weatherList[0].city);
+      } else if (airData['status'] == 'error' &&
+          airData['message'] == 'Unknown city') {
+        Position position = await _determinePosition();
+        var weatherData = await _getWeather(
+            position.latitude, position.longitude, _weatherToken);
+      }
+    }
   }
 
   Future<Position> _determinePosition() async {
@@ -53,5 +64,20 @@ class WeatherData with ChangeNotifier {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
     return await Geolocator.getCurrentPosition();
+  }
+
+  Future<dynamic> _getAQI(String cityName, String _airToken) async {
+    var airUri =
+        Uri.parse('https://api.waqi.info/feed/$cityName/?token=$_airToken');
+    var airResponse = await http.get(airUri);
+    return json.decode(airResponse.body);
+  }
+
+  Future<dynamic> _getWeather(
+      double lat, double long, String _weatherToken) async {
+    var weatherUri = Uri.parse(
+        'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$long&exclude=hourly&appid=$_weatherToken');
+    var weatherResponse = await http.get(weatherUri);
+    return json.decode(weatherResponse.body);
   }
 }
