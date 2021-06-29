@@ -13,15 +13,14 @@ class WeatherData with ChangeNotifier {
   }
 
   void getCityData(String cityName) async {
-    var _airToken = 'x';
-    var _weatherToken = 'x';
+    var _airToken = 'X';
+    var _weatherToken = 'X';
     Position position;
     _weatherList = [];
 
     if (cityName.length > 0) {
       var airData = await _getAQI(cityName, _airToken);
       if (airData['status'] == 'ok') {
-        print(airData);
         _weatherList.add(
           Weather(
             aqi: airData['data']['aqi'],
@@ -31,7 +30,6 @@ class WeatherData with ChangeNotifier {
             city: airData['data']['city']['name'],
           ),
         );
-        print(_weatherList[0].city);
       } else if (airData['status'] == 'error' &&
           airData['message'] == 'Unknown city') {
         position = await _determinePosition();
@@ -47,7 +45,9 @@ class WeatherData with ChangeNotifier {
             : position.longitude;
 
         var weatherData = await _getWeather(lat, long, _weatherToken);
-        print(weatherData);
+        print(weatherData['daily']);
+        //TODO:
+        //foreach the weatherData[daily] (should have 8 including today's)
       }
     }
   }
@@ -88,7 +88,7 @@ class WeatherData with ChangeNotifier {
   Future<dynamic> _getWeather(
       double lat, double long, String _weatherToken) async {
     var weatherUri = Uri.parse(
-        'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$long&exclude=current,minutely,hourly,alerts&appid=$_weatherToken');
+        'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$long&units=metric&exclude=current,minutely,hourly,alerts&appid=$_weatherToken');
     var weatherResponse = await http.get(weatherUri);
     return json.decode(weatherResponse.body);
   }
