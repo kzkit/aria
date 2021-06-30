@@ -4,7 +4,8 @@ class Weather {
   final double lat;
   final double long;
   final int aqi;
-  final String weather;
+  final double weather;
+  final String weatherId;
 
   Weather({
     this.city,
@@ -13,5 +14,6 @@ class Weather {
     this.long,
     this.aqi,
     this.weather,
+    this.weatherId,
   });
 }
