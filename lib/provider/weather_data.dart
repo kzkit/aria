@@ -20,34 +20,44 @@ class WeatherData with ChangeNotifier {
 
     if (cityName.length > 0) {
       var airData = await _getAQI(cityName, _airToken);
-      if (airData['status'] == 'ok') {
-        _weatherList.add(
-          Weather(
-            aqi: airData['data']['aqi'],
-            lat: airData['data']['city']['geo'][0],
-            long: airData['data']['city']['geo'][1],
-            date: airData['data']['time']['iso'],
-            city: airData['data']['city']['name'],
-          ),
-        );
-      } else if (airData['status'] == 'error' &&
+      if (airData['status'] == 'error' &&
           airData['message'] == 'Unknown city') {
         position = await _determinePosition();
       }
 
-      if ((_weatherList[0].lat != null && _weatherList[0].long != null) ||
+      if ((airData['data']['city']['geo'][0] != null &&
+              airData['data']['city']['geo'][1] != null) ||
           (position.longitude != null && position.latitude != null)) {
-        var lat = _weatherList[0].lat != null
-            ? _weatherList[0].lat
+        var lat = airData['data']['city']['geo'][0] != null
+            ? airData['data']['city']['geo'][0]
             : position.latitude;
-        var long = _weatherList[0].long != null
-            ? _weatherList[0].long
+        var long = airData['data']['city']['geo'][1] != null
+            ? airData['data']['city']['geo'][1]
             : position.longitude;
 
         var weatherData = await _getWeather(lat, long, _weatherToken);
-        print(weatherData['daily']);
-        //TODO:
-        //foreach the weatherData[daily] (should have 8 including today's)
+        for (var i = 0; i < weatherData['daily'].length; i++) {
+          if (i == 0) {
+            _weatherList.add(
+              Weather(
+                aqi: airData['data']['aqi'],
+                lat: airData['data']['city']['geo'][0],
+                long: airData['data']['city']['geo'][1],
+                date: airData['data']['time']['iso'],
+                city: airData['data']['city']['name'],
+                weather: weatherData['daily'][i]['temp']['day'],
+                weatherId: weatherData['daily'][i]['weather'][0]['icon'],
+              ),
+            );
+          } else {
+            _weatherList.add(
+              Weather(
+                weather: weatherData['daily'][i]['temp']['day'],
+                weatherId: weatherData['daily'][i]['weather'][0]['icon'],
+              ),
+            );
+          }
+        }
       }
     }
   }
